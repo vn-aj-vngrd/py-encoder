@@ -14,6 +14,17 @@ df_all = pd.concat(df_dict.values(), ignore_index=True)
 df_sheetNames = pd.ExcelFile(path)
 
 # Locate the data
-machinery = df_all.iloc[0,2]
+machinery = df_all.iloc[0, 2]
 
-print(machinery)
+# for i in range(len(df_sheetNames.sheet_names)):
+#     print(i)
+
+
+data = pd.read_excel(path, index_col=None, header=None, sheet_name=[0, 1])
+# data.fillna(" ", inplace=True)
+
+print(data[0])
+
+# print("Machinery: " + machinery)
+# print("\n")
+# print(df_all)
