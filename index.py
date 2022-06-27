@@ -20,10 +20,10 @@ machinery = df_all.iloc[0, 2]
 #     print(i)
 
 
-data = pd.read_excel(path, index_col=None, header=None, sheet_name=[0, 1])
+data = pd.read_excel(path, index_col=None, header=None, sheet_name=1, nrows=2)
 # data.fillna(" ", inplace=True)
 
-print(data[0])
+print(data)
 
 # print("Machinery: " + machinery)
 # print("\n")
