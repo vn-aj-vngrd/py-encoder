@@ -1,15 +1,35 @@
 import pandas as pd
-import numpy as np
-import math
+from openpyxl import Workbook
+from datetime import datetime
 
 # https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
 
+notIncluded = [
+    "Main Menu",
+    "Running Hours",
+    "MECO Setting",
+    "Sheet3",
+    "Cylinder Liner Monitoring",
+    "ME Exhaust Valve Monitoring",
+    "FIVA VALVE Monitoring",
+    "Fuel Valve Monitoring",
+    "Sheet1",
+]
+
+header = (
+    "vessel",
+    "machinery",
+    "code",
+    "name",
+    "description",
+    "interval",
+    "commissioning_date",
+    "last_done_date",
+    "last_done_running_hours",
+)
+
 # Get the location of the data
-path = "./test.xlsx"
-
-vessel = "Vessel_1"
-
-# header = ["vessel", "machinery", "name", "description", "interval", "comissioning_date", "last_done", "running_hours"]
+path = "data/test.xlsx"
 
 # Read the data
 data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
@@ -17,29 +37,54 @@ data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
 # Get the keys
 xl = pd.ExcelFile(path)
 keys = xl.sheet_names
-del keys[0]
-del keys[0]
 
 # Iterate through the sheets
 for key in keys:
-    # print(key)
+    if key not in notIncluded:
+        print(key)
+        # Vessel Name
+        vessel = data[key].iloc[0, 2]
 
-    writer = pd.ExcelWriter(key + ".xlsx", engine="xlsxwriter")
-    writer.save()
+        # Machinery Name
+        machinery = data[key].iloc[2, 2]
 
-    # Machinery Name
-    print(data[key].iloc[2, 2])
-    row = 7
+        # Start traversing the data on row 7
+        row = 7
+        isValid = True
 
-    isValid = True
-    while isValid:
-        for col in range(7):
-            d = data[key].iloc[row, col]
+        # Prepare the sheets
+        book = Workbook()
+        sheet = book.active
 
-            if (pd.isna(d)) and (col == 0):
-                isValid = False
-                break
+        sheet.append(header)
 
-            print(d)
-        row += 1
-    break
+        while isValid:
+
+            rowData = (
+                vessel,
+                machinery,
+            )
+
+            for col in range(7):
+                d = data[key].iloc[row, col]
+
+                if (pd.isna(d)) and (col == 0):
+                    isValid = False
+                    break
+                
+                
+
+                if ((col == 4) or (col == 5)) and isinstance(d, datetime):
+                    d = d.strftime("%d-%b-%y")
+
+                tempTuple = (d,)
+                rowData += tempTuple
+                # print(d)
+
+            # break
+            if (isValid):
+                sheet.append(rowData)
+                row += 1
+
+        book.save("res/" + key + ".xlsx")
+        
