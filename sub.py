@@ -76,7 +76,7 @@ while True:
                 rowData = (vessel, machinery, running_hours, updating_date)
                 sheet.append(rowData)
 
-        book.save("res/" + "Running_Hours_" + files[int(file_key)])
+        book.save("sub_res/" + "Running_Hours_" + files[int(file_key)])
         print("Done...")
     except Exception as e:
         print("Error: " + str(e))

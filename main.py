@@ -100,7 +100,7 @@ while True:
                         sheet.append(rowData)
                         row += 1
 
-                book.save("res/" + key + ".xlsx")
+                book.save("main_res/" + key + ".xlsx")
 
         print("Done...")
     except Exception as e:
