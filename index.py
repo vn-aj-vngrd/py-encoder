@@ -1,5 +1,6 @@
 # https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
 
+from logging import exception
 import pandas as pd
 from openpyxl import Workbook
 from datetime import datetime
@@ -33,57 +34,60 @@ filename = input("Input filename: ")
 path = "data/" + filename + ".xlsx"
 
 # Read the data
-data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
+try:
+    data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
 
-# Get the keys
-xl = pd.ExcelFile(path)
-keys = xl.sheet_names
+    # Get the keys
+    xl = pd.ExcelFile(path)
+    keys = xl.sheet_names
 
-# Iterate through the sheets
-for key in keys:
-    if key not in notIncluded:
-        print(key)
+    # Iterate through the sheets
+    for key in keys:
+        if key not in notIncluded:
+            print(key)
 
-        # Vessel Name
-        vessel = data[key].iloc[0, 2]
+            # Vessel Name
+            vessel = data[key].iloc[0, 2]
 
-        # Machinery Name
-        machinery = data[key].iloc[2, 2]
+            # Machinery Name
+            machinery = data[key].iloc[2, 2]
 
-        # Start traversing the data on row 7
-        row = 7
-        isValid = True
+            # Start traversing the data on row 7
+            row = 7
+            isValid = True
 
-        # Prepare the sheets
-        book = Workbook()
-        sheet = book.active
+            # Prepare the sheets
+            book = Workbook()
+            sheet = book.active
 
-        sheet.append(header)
+            sheet.append(header)
 
-        while isValid:
+            while isValid:
 
-            rowData = (
-                vessel,
-                machinery,
-            )
+                rowData = (
+                    vessel,
+                    machinery,
+                )
 
-            for col in range(7):
-                d = data[key].iloc[row, col]
+                for col in range(7):
+                    d = data[key].iloc[row, col]
 
-                if (pd.isna(d)) and (col == 0):
-                    isValid = False
-                    break
+                    if (pd.isna(d)) and (col == 0):
+                        isValid = False
+                        break
 
-                if ((col == 4) or (col == 5)) and isinstance(d, datetime):
-                    d = d.strftime("%d-%b-%y")
+                    if ((col == 4) or (col == 5)) and isinstance(d, datetime):
+                        d = d.strftime("%d-%b-%y")
 
-                tempTuple = (d,)
-                rowData += tempTuple
+                    tempTuple = (d,)
+                    rowData += tempTuple
 
-            if isValid:
-                sheet.append(rowData)
-                row += 1
+                if isValid:
+                    sheet.append(rowData)
+                    row += 1
 
-        book.save("res/" + key + ".xlsx")
+            book.save("res/" + key + ".xlsx")
 
-print("Done...")
+    print("Done...")
+except Exception as e:
+    print("Error: " + str(e))
