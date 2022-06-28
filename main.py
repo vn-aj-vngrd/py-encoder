@@ -1,10 +1,12 @@
 # https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
 
-from logging import exception
 import pandas as pd
 from openpyxl import Workbook
 from datetime import datetime
 import os
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 
 notIncluded = [
     "Main Menu",
@@ -16,6 +18,7 @@ notIncluded = [
     "FIVA VALVE Monitoring",
     "Fuel Valve Monitoring",
     "Sheet1",
+    "Details",
 ]
 
 header = (
