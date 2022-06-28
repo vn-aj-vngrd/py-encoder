@@ -42,14 +42,20 @@ if not os.path.exists("./main_res"):
     os.makedirs("./main_res")
 
 while True:
-    i = 0
+    if not os.path.exists("./src"):
+        os.makedirs("./src")
+        
     files = []
-
+    i = 0
     for excel in os.listdir("./src"):
         if excel.endswith(".xlsx"):
             files.append(excel)
             print(i, "-", excel)
             i += 1
+            
+    if (len(files) == 0):
+        print("No such data found in src directory.")
+        exit()
 
     # Get the location of the data
     try:
