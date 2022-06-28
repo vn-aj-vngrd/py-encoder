@@ -52,8 +52,8 @@ while True:
     try:
         file_key = input("\nInput file number: ")
         file_name = files[int(file_key)]
-
         path = "src/" + file_name
+        print("Excel File: ", file_name)
     except Exception as e:
         print("Error: ", str(e))
 
