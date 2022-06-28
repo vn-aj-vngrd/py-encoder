@@ -35,7 +35,7 @@ if not os.path.exists("./sub_res"):
 while True:
     if not os.path.exists("./src"):
         os.makedirs("./src")
-        
+
     files = []
     i = 0
     for excel in os.listdir("./src"):
@@ -44,16 +44,16 @@ while True:
             print(i, "-", excel)
             i += 1
 
-    if (len(files) == 0):
+    if len(files) == 0:
         print("No such data found in src directory.")
         exit()
-        
+
     # Get the location of the data
     try:
         file_key = input("\nInput file number: ")
         file_name = files[int(file_key)]
         path = "src/" + file_name
-        print("Excel File: ", file_name)
+        print("Excel File: " + file_name)
     except Exception as e:
         print("Error: ", str(e))
 
