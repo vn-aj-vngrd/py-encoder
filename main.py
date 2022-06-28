@@ -10,9 +10,6 @@ import re
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 
-today = date.today()
-date = today.strftime("%b-%d-%Y")
-
 notIncluded = [
     "Main Menu",
     "Running Hours",

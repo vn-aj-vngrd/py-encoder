@@ -1,16 +1,13 @@
-from logging import exception
+# https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
+
 import pandas as pd
 from openpyxl import Workbook
 from datetime import datetime
 import os
 import warnings
 from datetime import date
-import re
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
-
-today = date.today()
-date = today.strftime("%b-%d-%Y")
 
 notIncluded = [
     "Main Menu",
