@@ -29,7 +29,8 @@ header = (
 )
 
 # Get the location of the data
-path = "data/test.xlsx"
+filename = input("Input filename: ")
+path = "data/" + filename + ".xlsx"
 
 # Read the data
 data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
