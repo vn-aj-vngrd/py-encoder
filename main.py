@@ -33,6 +33,7 @@ header = (
 while True:
     i = 0
     files = []
+
     for excel in os.listdir("./data"):
         if excel.endswith(".xlsx"):
             files.append(excel)
@@ -41,7 +42,7 @@ while True:
 
     # Get the location of the data
     try:
-        file_key = input("Select file number: ")
+        file_key = input("\nInput file number: ")
         path = "data/" + files[int(file_key)]
     except Exception as e:
         print("Error: ", str(e))
