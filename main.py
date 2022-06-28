@@ -5,8 +5,12 @@ from openpyxl import Workbook
 from datetime import datetime
 import os
 import warnings
+from datetime import date
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
+
+today = date.today()
+date = today.strftime("%b-%d-%Y")
 
 notIncluded = [
     "Main Menu",
@@ -49,7 +53,8 @@ while True:
     # Get the location of the data
     try:
         file_key = input("\nInput file number: ")
-        path = "src/" + files[int(file_key)]
+        file_name = files[int(file_key)]
+        path = "src/" + file_name
     except Exception as e:
         print("Error: ", str(e))
 
@@ -106,7 +111,11 @@ while True:
                         sheet.append(rowData)
                         row += 1
 
-                book.save("main_res/" + key + ".xlsx")
+                create_name = file_name[: len(file_name) - 4]
+                creation_folder = "./main_res/" + create_name
+                if not os.path.exists(creation_folder):
+                    os.makedirs(creation_folder)
+                book.save(creation_folder + "/" + key + ".xlsx")
 
         print("Done...")
     except Exception as e:
