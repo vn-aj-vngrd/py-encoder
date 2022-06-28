@@ -1,8 +1,8 @@
+# https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
+
 import pandas as pd
 from openpyxl import Workbook
 from datetime import datetime
-
-# https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
 
 notIncluded = [
     "Main Menu",
@@ -42,6 +42,7 @@ keys = xl.sheet_names
 for key in keys:
     if key not in notIncluded:
         print(key)
+
         # Vessel Name
         vessel = data[key].iloc[0, 2]
 
@@ -71,20 +72,17 @@ for key in keys:
                 if (pd.isna(d)) and (col == 0):
                     isValid = False
                     break
-                
-                
 
                 if ((col == 4) or (col == 5)) and isinstance(d, datetime):
                     d = d.strftime("%d-%b-%y")
 
                 tempTuple = (d,)
                 rowData += tempTuple
-                # print(d)
 
-            # break
-            if (isValid):
+            if isValid:
                 sheet.append(rowData)
                 row += 1
 
         book.save("res/" + key + ".xlsx")
-        
+
+print("Done...")
