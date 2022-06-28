@@ -33,11 +33,14 @@ header = (
     "last_done_running_hours",
 )
 
+if not os.path.exists("./main_res"):
+    os.makedirs("./main_res")
+
 while True:
     i = 0
     files = []
 
-    for excel in os.listdir("./data"):
+    for excel in os.listdir("./src"):
         if excel.endswith(".xlsx"):
             files.append(excel)
             print(i, "-", excel)
@@ -46,7 +49,7 @@ while True:
     # Get the location of the data
     try:
         file_key = input("\nInput file number: ")
-        path = "data/" + files[int(file_key)]
+        path = "src/" + files[int(file_key)]
     except Exception as e:
         print("Error: ", str(e))
 
