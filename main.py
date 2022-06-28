@@ -6,6 +6,7 @@ from datetime import datetime
 import os
 import warnings
 from datetime import date
+import re
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 
@@ -103,6 +104,8 @@ while True:
 
                         if ((col == 4) or (col == 5)) and isinstance(d, datetime):
                             d = d.strftime("%d-%b-%y")
+                        else:
+                            d = re.sub("\\s+", " ", str(d))
 
                         tempTuple = (d,)
                         rowData += tempTuple
