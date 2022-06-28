@@ -4,6 +4,7 @@ from logging import exception
 import pandas as pd
 from openpyxl import Workbook
 from datetime import datetime
+import os
 
 notIncluded = [
     "Main Menu",
@@ -29,65 +30,81 @@ header = (
     "last_done_running_hours",
 )
 
-# Get the location of the data
-filename = input("Input filename: ")
-path = "data/" + filename + ".xlsx"
+while True:
+    i = 0
+    files = []
+    for excel in os.listdir("./data"):
+        if excel.endswith(".xlsx"):
+            files.append(excel)
+            print(i, "-", excel)
+            i += 1
 
-# Read the data
-try:
-    data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
+    # Get the location of the data
+    try:
+        file_key = input("Select file number: ")
+        path = "data/" + files[int(file_key)]
+    except Exception as e:
+        print("Error: ", str(e))
 
-    # Get the keys
-    xl = pd.ExcelFile(path)
-    keys = xl.sheet_names
+    # Read the data
+    try:
+        data = pd.read_excel(path, sheet_name=None, index_col=None, header=None)
 
-    # Iterate through the sheets
-    for key in keys:
-        if key not in notIncluded:
-            print(key)
+        # Get the keys
+        xl = pd.ExcelFile(path)
+        keys = xl.sheet_names
 
-            # Vessel Name
-            vessel = data[key].iloc[0, 2]
+        # Iterate through the sheets
+        for key in keys:
+            if key not in notIncluded:
+                print(key)
 
-            # Machinery Name
-            machinery = data[key].iloc[2, 2]
+                # Vessel Name
+                vessel = data[key].iloc[0, 2]
 
-            # Start traversing the data on row 7
-            row = 7
-            isValid = True
+                # Machinery Name
+                machinery = data[key].iloc[2, 2]
 
-            # Prepare the sheets
-            book = Workbook()
-            sheet = book.active
+                # Start traversing the data on row 7
+                row = 7
+                isValid = True
 
-            sheet.append(header)
+                # Prepare the sheets
+                book = Workbook()
+                sheet = book.active
 
-            while isValid:
+                sheet.append(header)
 
-                rowData = (
-                    vessel,
-                    machinery,
-                )
+                while isValid:
 
-                for col in range(7):
-                    d = data[key].iloc[row, col]
+                    rowData = (
+                        vessel,
+                        machinery,
+                    )
 
-                    if (pd.isna(d)) and (col == 0):
-                        isValid = False
-                        break
+                    for col in range(7):
+                        d = data[key].iloc[row, col]
 
-                    if ((col == 4) or (col == 5)) and isinstance(d, datetime):
-                        d = d.strftime("%d-%b-%y")
+                        if (pd.isna(d)) and (col == 0):
+                            isValid = False
+                            break
 
-                    tempTuple = (d,)
-                    rowData += tempTuple
+                        if ((col == 4) or (col == 5)) and isinstance(d, datetime):
+                            d = d.strftime("%d-%b-%y")
 
-                if isValid:
-                    sheet.append(rowData)
-                    row += 1
+                        tempTuple = (d,)
+                        rowData += tempTuple
 
-            book.save("res/" + key + ".xlsx")
+                    if isValid:
+                        sheet.append(rowData)
+                        row += 1
 
-    print("Done...")
-except Exception as e:
-    print("Error: " + str(e))
+                book.save("res/" + key + ".xlsx")
+
+        print("Done...")
+    except Exception as e:
+        print("Error: " + str(e))
+
+    isContinue = input("Input 1 to continue: ")
+    if isContinue != "1":
+        break
