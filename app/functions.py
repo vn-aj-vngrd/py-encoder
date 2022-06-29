@@ -186,7 +186,7 @@ def sub_function():
 
                     # Default Machinery Name: machinery = data[key].iloc[2, 2]
                     # Machinery Name
-                    machinery = getMachinery(data[key].iloc[2, 5])
+                    machinery = getMachinery(str(data[key].iloc[2, 5]))
 
                     # Running Hours
                     running_hours = data[key].iloc[3, 5]
