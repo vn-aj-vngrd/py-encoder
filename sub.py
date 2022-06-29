@@ -1,33 +1,6 @@
-# https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
-
-import pandas as pd
-from openpyxl import Workbook
-from datetime import datetime
-import os
-import warnings
-from datetime import date
+from app.definitions import *
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
-
-notIncluded = [
-    "Main Menu",
-    "Running Hours",
-    "MECO Setting",
-    "Sheet3",
-    "Cylinder Liner Monitoring",
-    "ME Exhaust Valve Monitoring",
-    "FIVA VALVE Monitoring",
-    "Fuel Valve Monitoring",
-    "Sheet1",
-    "Details",
-]
-
-header = (
-    "vessel",
-    "machinery",
-    "running_hours",
-    "updating_date",
-)
 
 if not os.path.exists("./sub_res"):
     os.makedirs("./sub_res")
