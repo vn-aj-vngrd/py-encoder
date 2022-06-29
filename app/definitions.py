@@ -2,7 +2,6 @@ import pandas as pd
 from openpyxl import Workbook
 from datetime import datetime
 import os
-
 import re
 
 notIncluded = [
