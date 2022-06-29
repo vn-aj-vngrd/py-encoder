@@ -1,5 +1,30 @@
 from app.definitions import *
 
+
+def getMachinery(machineryCode):
+    try:
+        path = "./app/data/gen_mach_list.xlsx"
+        mach_list = pd.read_excel(path)
+
+        i = 0
+        while (not pd.isna(mach_list.iloc[i, 1])) and (
+            mach_list.iloc[i, 1] != machineryCode
+        ):
+            i += 1
+            if mach_list.iloc[i, 1] == "ECT":
+                break
+
+        if not pd.isna(mach_list.iloc[i, 1]) and (
+            mach_list.iloc[i, 1] == machineryCode
+        ):
+            return mach_list.iloc[i, 0]
+        else:
+            print("\nError: No such machinery code found for " + machineryCode)
+            return "N/A"
+    except Exception as e:
+        print("Error: " + str(e))
+
+
 def main_function():
     if not os.path.exists("./res/main"):
         os.makedirs("./res/main")
@@ -45,8 +70,9 @@ def main_function():
                     # Vessel Name
                     vessel = data[key].iloc[0, 2]
 
-                    # Machinery Name
-                    machinery = data[key].iloc[2, 2]
+                    # Default Machinery Name: machinery = data[key].iloc[2, 2]
+                    # Machinery Name using the machinery code
+                    machinery = getMachinery(data[key].iloc[2, 5])
 
                     # Start traversing the data on row 7
                     row = 7
@@ -56,7 +82,7 @@ def main_function():
                     book = Workbook()
                     sheet = book.active
 
-                    sheet.append(header)
+                    sheet.append(main_header)
 
                     while isValid:
 
@@ -148,7 +174,7 @@ def sub_function():
             sheet = book.active
 
             # Append the dates
-            sheet.append(header)
+            sheet.append(sub_header)
 
             # Iterate through the sheets
             for key in keys:
@@ -158,8 +184,9 @@ def sub_function():
                     # Vessel Name
                     vessel = data[key].iloc[0, 2]
 
+                    # Default Machinery Name: machinery = data[key].iloc[2, 2]
                     # Machinery Name
-                    machinery = data[key].iloc[2, 2]
+                    machinery = getMachinery(data[key].iloc[2, 5])
 
                     # Running Hours
                     running_hours = data[key].iloc[3, 5]

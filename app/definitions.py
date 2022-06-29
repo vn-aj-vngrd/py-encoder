@@ -17,7 +17,7 @@ notIncluded = [
     "Details",
 ]
 
-header = (
+main_header = (
     "vessel",
     "machinery",
     "code",
@@ -28,3 +28,10 @@ header = (
     "last_done_date",
     "last_done_running_hours",
 )
+
+sub_header = {
+    "vessel",
+    "machinery",
+    "running_hours",
+    "updating_date"
+}
