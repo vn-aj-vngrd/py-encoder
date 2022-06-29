@@ -1,9 +1,3 @@
-import pandas as pd
-from openpyxl import Workbook
-from datetime import datetime
-import os
-import re
-
 notIncluded = [
     "Main Menu",
     "Running Hours",
@@ -29,9 +23,6 @@ main_header = (
     "last_done_running_hours",
 )
 
-sub_header = {
-    "vessel",
-    "machinery",
-    "running_hours",
-    "updating_date"
-}
+sub_header = ("vessel", "machinery", "running_hours", "updating_date")
+
+bin_header = ("sheet_name", "code")

@@ -1,11 +1,15 @@
-from openpyxl import load_workbook
-from tomli import load
+from os.path import exists
 from app.definitions import *
+from openpyxl import Workbook
+from openpyxl import load_workbook
+from datetime import datetime
+import pandas as pd
+import os
+import re
 
 
 def getMachinery(machineryCode, key, mode, file_name):
     try:
-
         path = "./app/data/gen_mach_list.xlsx"
         mach_list = pd.read_excel(path)
 
@@ -28,14 +32,22 @@ def getMachinery(machineryCode, key, mode, file_name):
             if not os.path.exists(creation_path):
                 os.makedirs(creation_path)
 
-            if not os.path.exists(creation_path + creation_name):
-                os.makedirs(creation_path + creation_name)
+            if not exists(creation_path + creation_name):
+                writer = pd.ExcelWriter(
+                    creation_path + creation_name, engine="xlsxwriter"
+                )
+                writer.save()
+                book = load_workbook(creation_path + creation_name)
+                sheet = book.active
+                sheet.append(bin_header)
+                book.save(creation_path + creation_name)
 
             book = load_workbook(creation_path + creation_name)
             sheet = book.active
 
             rowData = (key, machineryCode)
             sheet.append(rowData)
+            book.save(creation_path + creation_name)
 
             print(
                 "\nError: No such machinery code found for "
