@@ -19,10 +19,10 @@ def getMachinery(machineryCode):
         ):
             return mach_list.iloc[i, 0]
         else:
-            print("\nError: No such machinery code found for " + machineryCode)
+            print("Error: No such machinery code found for " + machineryCode + "\n")
             return "N/A"
     except Exception as e:
-        print("Error: " + str(e))
+        print("Error: " + str(e) + "(" + machineryCode + ")" + "\n")
 
 
 def main_function():
@@ -72,7 +72,7 @@ def main_function():
 
                     # Default Machinery Name: machinery = data[key].iloc[2, 2]
                     # Machinery Name using the machinery code
-                    machinery = getMachinery(data[key].iloc[2, 5])
+                    machinery = getMachinery(str(data[key].iloc[2, 5]))
 
                     # Start traversing the data on row 7
                     row = 7
