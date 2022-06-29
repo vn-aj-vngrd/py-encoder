@@ -1,4 +1,4 @@
-from app.definitions import *
+from app.functions import *
 from app.middleware import *
 
 sub_function()
