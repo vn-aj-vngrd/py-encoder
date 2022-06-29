@@ -106,6 +106,9 @@ while True:
                             isValid = False
                             break
 
+                        if pd.isna(d):
+                            d = " "
+
                         if ((col == 4) or (col == 5)) and isinstance(d, datetime):
                             d = d.strftime("%d-%b-%y")
                         else:
