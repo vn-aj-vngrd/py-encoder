@@ -30,6 +30,9 @@ header = (
 )
 
 def main_function():
+    if not os.path.exists("./main_res"):
+        os.makedirs("./main_res")
+    
     while True:
         if not os.path.exists("./src"):
             os.makedirs("./src")
@@ -128,6 +131,9 @@ def main_function():
             break
 
 def sub_function():
+    if not os.path.exists("./sub_res"):
+        os.makedirs("./sub_res")
+        
     while True:
         if not os.path.exists("./src"):
             os.makedirs("./src")
