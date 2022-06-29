@@ -140,6 +140,9 @@ def main_function():
                             if pd.isna(d):
                                 d = " "
 
+                            if (col == 3) and not (re.search("[a-zA-Z]", str(d))):
+                                d = str(d) + " Hours"
+
                             if ((col == 4) or (col == 5)) and isinstance(d, datetime):
                                 d = d.strftime("%d-%b-%y")
                             else:
