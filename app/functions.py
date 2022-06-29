@@ -1,8 +1,11 @@
+from openpyxl import load_workbook
+from tomli import load
 from app.definitions import *
 
 
-def getMachinery(machineryCode):
+def getMachinery(machineryCode, key, mode, file_name):
     try:
+
         path = "./app/data/gen_mach_list.xlsx"
         mach_list = pd.read_excel(path)
 
@@ -19,10 +22,32 @@ def getMachinery(machineryCode):
         ):
             return mach_list.iloc[i, 0]
         else:
-            print("Error: No such machinery code found for " + machineryCode + "\n")
+            creation_name = "/" + file_name
+            creation_path = "./bin/" + mode
+
+            if not os.path.exists(creation_path):
+                os.makedirs(creation_path)
+
+            if not os.path.exists(creation_path + creation_name):
+                os.makedirs(creation_path + creation_name)
+
+            book = load_workbook(creation_path + creation_name)
+            sheet = book.active
+
+            rowData = (key, machineryCode)
+            sheet.append(rowData)
+
+            print(
+                "\nError: No such machinery code found for "
+                + key
+                + ": "
+                + machineryCode
+                + "\n"
+            )
             return "N/A"
+
     except Exception as e:
-        print("Error: " + str(e) + "(" + machineryCode + ")" + "\n")
+        print("Error: " + str(e) + " (" + key + ": " + machineryCode + ")" + "\n")
 
 
 def main_function():
@@ -72,7 +97,9 @@ def main_function():
 
                     # Default Machinery Name: machinery = data[key].iloc[2, 2]
                     # Machinery Name using the machinery code
-                    machinery = getMachinery(str(data[key].iloc[2, 5]))
+                    machinery = getMachinery(
+                        str(data[key].iloc[2, 5]), key, "main", file_name
+                    )
 
                     # Start traversing the data on row 7
                     row = 7
@@ -186,7 +213,9 @@ def sub_function():
 
                     # Default Machinery Name: machinery = data[key].iloc[2, 2]
                     # Machinery Name
-                    machinery = getMachinery(str(data[key].iloc[2, 5]))
+                    machinery = getMachinery(
+                        str(data[key].iloc[2, 5]), key, "sub", file_name
+                    )
 
                     # Running Hours
                     running_hours = data[key].iloc[3, 5]
