@@ -30,8 +30,8 @@ header = (
 )
 
 def main_function():
-    if not os.path.exists("./main_res"):
-        os.makedirs("./main_res")
+    if not os.path.exists("./res/main"):
+        os.makedirs("./res/main")
     
     while True:
         if not os.path.exists("./src"):
@@ -117,7 +117,7 @@ def main_function():
                             row += 1
 
                     create_name = file_name[: len(file_name) - 4]
-                    creation_folder = "./main_res/" + create_name
+                    creation_folder = "./res/main/" + create_name
                     if not os.path.exists(creation_folder):
                         os.makedirs(creation_folder)
                     book.save(creation_folder + "/" + key + ".xlsx")
@@ -131,8 +131,8 @@ def main_function():
             break
 
 def sub_function():
-    if not os.path.exists("./sub_res"):
-        os.makedirs("./sub_res")
+    if not os.path.exists("./res/sub"):
+        os.makedirs("./res/sub")
         
     while True:
         if not os.path.exists("./src"):
@@ -196,7 +196,7 @@ def sub_function():
                     sheet.append(rowData)
 
             create_name = file_name[: len(file_name) - 4]
-            creation_folder = "./sub_res/" + create_name
+            creation_folder = "./res/sub/" + create_name
             if not os.path.exists(creation_folder):
                 os.makedirs(creation_folder)
             book.save(creation_folder + "/" + file_name)
