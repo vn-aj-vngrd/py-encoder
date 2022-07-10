@@ -8,7 +8,7 @@ The Py-Encoder is a Python-based tool for manipulating data in Excel. Its task i
 
 ## Get Started
 
-1. Start the py encoder.exe or start.exe program (Open with Windows Terminal).
+1. Start by opening the py_encoder.exe or start.exe program (open with Windows terminal).
 2. Copy an excel file to the project's src folder.
 3. Start encoding by selecting an option from the main menu.
 
